@@ -525,14 +525,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
 //searching
 document.querySelector('.search-bar-container form').addEventListener('submit', function (event) {
-    event.preventDefault(); // Prevent the default form submission behavior
+    event.preventDefault();
 
     const query = document.querySelector('.search-input').value.trim();
     const searchResultsContainer = document.getElementById('searchResults');
 
     if (query === '') {
         searchResultsContainer.innerHTML = '';
-        searchResultsContainer.style.display = 'none'; // Hide the container if no input
+        searchResultsContainer.style.display = 'none';
         return;
     }
 
@@ -541,18 +541,19 @@ document.querySelector('.search-bar-container form').addEventListener('submit', 
         .then(data => {
             if (data.trim() !== '') {
                 searchResultsContainer.innerHTML = data;
-                searchResultsContainer.style.display = 'block'; // Show the container with results
+                searchResultsContainer.style.display = 'block';
             } else {
                 searchResultsContainer.innerHTML = '<p>No results found.</p>';
-                searchResultsContainer.style.display = 'block'; // Show the container even if no results
+                searchResultsContainer.style.display = 'block';
             }
         })
         .catch(error => {
             console.error('Error fetching search results:', error);
             searchResultsContainer.innerHTML = '<p>An error occurred while fetching results.</p>';
-            searchResultsContainer.style.display = 'block'; // Show the container on error
+            searchResultsContainer.style.display = 'block';
         });
 });
+
 
 
   

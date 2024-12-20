@@ -1,32 +1,40 @@
 <?php
-// Include the database connection
 include('connect.php');
 
-// Check if the search query exists
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 if (!isset($_GET['query']) || trim($_GET['query']) === '') {
-    echo ""; // Return empty string when no query is provided
+    echo "<p>Please provide a search query / தேடல் கேள்வியை வழங்கவும்.</p>";
     exit;
 }
 
 $search_query = trim($_GET['query']);
 
-// Use a prepared statement for security
-$stmt = $conn->prepare("SELECT title, id FROM uploads WHERE content LIKE ? LIMIT 10");
+// Prepare the SQL query
+$stmt = $conn->prepare("
+    SELECT title, id 
+    FROM uploads 
+    WHERE content LIKE ? OR title LIKE ? 
+    COLLATE utf8mb4_general_ci 
+    LIMIT 10
+");
 $like_query = "%" . $search_query . "%";
-$stmt->bind_param("s", $like_query);
+$stmt->bind_param("ss", $like_query, $like_query);
 
 if ($stmt->execute()) {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        // Display each matching article as a clickable link
         while ($row = $result->fetch_assoc()) {
             $title = htmlspecialchars($row['title']);
-            $id = htmlspecialchars($row['id']); // Assume `id` is the primary key
+            $id = htmlspecialchars($row['id']);
             echo "<a href='view.php?id=$id' class='search-result-item'>$title</a>";
         }
     } else {
-        echo "<p>உங்கள் தேடலுக்குப் பொருத்தமான கட்டுரைகள் எதுவும் இல்லை.</p>";
+        echo "<p>No matching articles found / உங்கள் தேடலுக்குப் பொருத்தமான கட்டுரைகள் எதுவும் இல்லை.</p>";
     }
 } else {
     echo "<p>An error occurred: " . $stmt->error . "</p>";
