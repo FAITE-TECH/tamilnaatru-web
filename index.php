@@ -521,14 +521,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
 //searching
 document.querySelector('.search-bar-container form').addEventListener('submit', function (event) {
-    event.preventDefault(); // Prevent the default form submission behavior
+    event.preventDefault();
 
     const query = document.querySelector('.search-input').value.trim();
     const searchResultsContainer = document.getElementById('searchResults');
 
     if (query === '') {
         searchResultsContainer.innerHTML = '';
-        searchResultsContainer.style.display = 'none'; // Hide the container if no input
+        searchResultsContainer.style.display = 'none';
         return;
     }
 
@@ -537,20 +537,85 @@ document.querySelector('.search-bar-container form').addEventListener('submit', 
         .then(data => {
             if (data.trim() !== '') {
                 searchResultsContainer.innerHTML = data;
-                searchResultsContainer.style.display = 'block'; // Show the container with results
+                searchResultsContainer.style.display = 'block';
             } else {
                 searchResultsContainer.innerHTML = '<p>No results found.</p>';
-                searchResultsContainer.style.display = 'block'; // Show the container even if no results
+                searchResultsContainer.style.display = 'block';
             }
         })
         .catch(error => {
             console.error('Error fetching search results:', error);
             searchResultsContainer.innerHTML = '<p>An error occurred while fetching results.</p>';
-            searchResultsContainer.style.display = 'block'; // Show the container on error
+            searchResultsContainer.style.display = 'block';
         });
 });
 
 
+<<<<<<< HEAD
+=======
+
+  
+  
+ /*category
+  function fetchArticles(displayCategory) {
+    const categoryMapping = {
+        "திருக்குறள்": "Essay",
+        "சினிமா": "Literature",
+        "சிறுகதை": "Short Story",
+        "பொது அறிவு": "General Knowledge"
+    };
+
+    const category = categoryMapping[displayCategory];
+    if (!category) {
+        console.error("Invalid category selected:", displayCategory);
+        return;
+    }
+
+    const url = 'fetch_articles.php';
+    const articlesContainer = document.getElementById('leftContent');
+
+    // Show loading message
+    articlesContainer.innerHTML = '<p>Loading articles...</p>';
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ category: category }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                articlesContainer.innerHTML = `<p>${data.error}</p>`;
+            } else {
+                const articlesHTML = data
+                    .map(
+                        article => `
+                        <div style="background-color: transparent; padding: 10px;">
+                            <img src="${article.image_path}" alt="${article.title}" class="update-photo1">
+                            <div class="content">
+                                <h2 class="updates-header">${article.title}</h2>
+                                <p>${article.content.substring(0, 150)}...</p>
+                                <a href="view.php?id=${article.id}" style="text-decoration: none; background-color: transparent; display: inline-block;">
+                                    <button>மேலும் வாசிக்க</button>
+                                </a>
+                            </div>
+                        </div>
+                    `
+                    )
+                    .join('');
+                articlesContainer.innerHTML = articlesHTML;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching articles:', error);
+            articlesContainer.innerHTML = '<p>Failed to load articles.</p>';
+        });
+}*/
+
+
+>>>>>>> 7251633a3ee7859b6303b741cadc100e2d9c81b6
 function fetchArticles(category) {
     console.log("Fetching articles for category:", category); // Debugging output
     fetch("fetch_articles.php", {

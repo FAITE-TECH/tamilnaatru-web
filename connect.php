@@ -1,5 +1,5 @@
 <?php
-$servername = "localhost";
+$servername = "localhost:3308";
 $username = "root";  // Default user for XAMPP MySQL
 $password = "";      // Leave blank if there's no password for root
 $dbname = "tamilnaatru";   // Your database name
